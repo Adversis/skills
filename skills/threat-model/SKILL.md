@@ -124,8 +124,10 @@ trust boundary.
 
 ### 4A: Attack path modeling
 
-For each confirmed asset, model 3–5 attack paths. Order cheapest
-first. Use this exact structure for each path:
+For each confirmed asset, model 3–5 attack paths. Order by fewest
+**steps to abuse** first — a one-hop, directly-abusable path ranks above a
+multi-hop "stars-align" path even when the latter's ceiling is higher (see
+the ranking rule below). Use this exact structure for each path:
 
 ```
 **Path N — [descriptive name] ([cheapest / moderate / expensive])**
@@ -133,6 +135,8 @@ first. Use this exact structure for each path:
 Initial access:        [SPECIFIC VECTOR — see below]
 Required privileges:   [what the attacker needs once inside]
 Lateral movement:      [steps from entry point to the asset]
+Steps to abuse:        [N — distinct compromises/pivots from a realistic
+                        start to abusing the asset; 1 = directly abusable]
 Detection opportunity: [specific signal in the data flow]
 Breaks with:           [one structural control]
 Disposition:           [mitigate / accept / defer / transfer]
@@ -179,6 +183,26 @@ Name the specific signal. "Monitor for anomalies" is not acceptable.
   detection risk or requires positioning
 - Expensive: insider knowledge, custom tooling, or sustained
   access required with high detection exposure
+
+**Steps to abuse — the primary ranking signal:**
+Count the distinct compromises or pivots an attacker needs, from a realistic
+starting point, to actually abuse the asset. Fewer steps = higher priority:
+each additional step is another place the chain can fail or be detected, and
+another set of stars that must align.
+- **1 step (directly abusable):** a single compromise yields abuse — a leaked
+  symmetric session secret → forge an admin token; a foothold on a process
+  whose one role reads every key. Rank these first, always.
+- **2–3 steps:** a short chain, no exotic positioning.
+- **4+ steps / stars-align:** many pivots, insider knowledge, or timing must
+  line up. A high ceiling can still justify mitigation, but these rank below
+  shorter chains — say so explicitly rather than letting a scary blast radius
+  inflate the priority. When two paths differ, prefer the one with fewer steps
+  even if the longer one has a larger blast radius; note blast radius separately.
+- **Consequence-collapse check:** if compromising X *also* hands the attacker
+  Y and Z (shared key custody, one over-broad role, co-located secrets), that
+  is not several multi-step paths — it is **one step**, and the shared
+  dependency is itself the finding. Fold the "assets" together and rank the
+  collapse as the one-hop path it actually is.
 
 **Disposition:**
 - Mitigate: implement a control that breaks or significantly raises
@@ -300,6 +324,9 @@ Produce an ordered list from most paths blocked to fewest:
 > ..."
 
 A control blocking 3 paths across 2 assets is higher value than one blocking 1.
+Break ties by steps-to-abuse: a control that closes a 1-step (directly-abusable)
+path outranks one that only closes multi-step, stars-align chains, even at equal
+path counts — the cheapest paths are where a real attacker starts.
 This ordering is the direct answer to "where do I start?"
 
 ### 5B: Baseline integration
@@ -380,6 +407,7 @@ rationale, or the specific signal that flipped to sophisticated]
 | Initial access | [specific vector] |
 | Required privileges | [what] |
 | Lateral movement | [steps] |
+| Steps to abuse | [N; 1 = directly abusable] |
 | Detection opportunity | [specific signal] |
 | Breaks with | [control] |
 | Disposition | [decision] |
