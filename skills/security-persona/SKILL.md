@@ -18,11 +18,15 @@ user-stated, and what is not yet addressed.
 This session writes `docs/security-posture.md`. Work through all three
 phases before writing the document.
 
+Use a loose ASD-STE100 style in questions and customer reports. Use short sentences and consistent terms. Name the component that enforces each control. Give one action per instruction. Keep evidence references, identifiers, and quoted statements exact.
+
 ---
 
 ## Phase 1: Codebase and prior skill discovery
 
 **Detect prior skill output first:**
+
+When a review or verification record is available, match its system, revision, and scope to the customer claim. Check the cited evidence. A passed case can support the behavior that it exercised. Carry failed or untested behavior into the gaps and limitations. Retain the case ID with the supporting claim. Exclude internal secrets and sensitive log content from customer reports.
 
 Check for `docs/lint-baseline-report.md` or lint-baseline output in
 session context. If present, extract the verdict (PASS / GAP / UNKNOWN)
@@ -37,7 +41,7 @@ for each of these items — match by heading or item name:
 - Item 8: agent worker egress allowlist (maps to Domain 3)
 
 Check for `docs/threat-model.md`. If present, extract:
-- The adversary assumption (commodity / sophisticated)
+- The adversary assumption, including the capabilities and effective access described
 - The "Raise the floor here first" ordered list — use this to order
   the roadmap in Phase 3
 
@@ -269,9 +273,8 @@ Write to `docs/security-posture.md` using this structure exactly:
 ```markdown
 # Security posture · [repo name] · [YYYY-MM-DD]
 
-**Adversary assumption:** [commodity / sophisticated] — [one-sentence
-rationale, or "threat-model not run — run /threat-model to establish
-this"]
+**Adversary assumption:** [Capabilities and rationale from the model or owner.
+Identify any assumption that still needs confirmation.]
 
 ---
 

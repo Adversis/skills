@@ -151,6 +151,6 @@ The relevant tools:
 
 ## What this baseline does not cover
 
-CI/CD hygiene, GitHub Actions security, secrets sprawl, cloud config, and dependency scanning are out of scope for *this baseline* — it covers only the attack surface created by the agentic application layer itself. A subset of deployment and supply-chain posture (approval-gate reality, action/workflow pinning, deploy-credential model, shared-workflow integrity) is assessed as an *optional companion* by the threat-model and security-persona skills when the repo has CI/CD or IaC. Dependency CVE scanning and training-infrastructure security remain out of scope by design.
+The v0 baseline covers the agentic application layer. The threat model also covers the engineering environment, including release approvals, workflow dependencies and deployment identities. The security-persona skill assesses deployment and supply-chain posture as an optional companion when the repository has CI/CD or IaC. Dependency CVE scanning and training-infrastructure security are outside the scope of this baseline.
 
 Run the [lint-baseline skill →] for a mechanical audit against these criteria, including framework-specific findings for FastAPI, Next.js, Supabase, and MCP server integration patterns.

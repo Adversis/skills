@@ -1,0 +1,35 @@
+# Worked example for a fictional system.
+schema_version: 1
+system:
+  name: Document service
+  owner: Document services team
+requirements:
+  - id: SEC-001
+    status: active
+    requirement: Users can read and export only documents their permissions allow.
+    owner: Document services team
+    threats:
+      - Cross-tenant document disclosure
+      - Unauthorized document export
+    controls:
+      - Authorize the requested operation on the server.
+      - Scope document retrieval and export jobs to the authenticated tenant.
+    verification:
+      - id: permitted-read
+        method: authenticated-runtime
+        scenario: A reader opens a document explicitly shared with their account.
+        expected: The response contains the shared document.
+      - id: other-tenant-read
+        method: authenticated-runtime
+        scenario: The reader requests a private document owned by another tenant.
+        expected: Access is denied and the response discloses no document content.
+      - id: permitted-export
+        method: authenticated-runtime
+        scenario: An editor with export permission exports an authorized document.
+        expected: The export contains only the requested document.
+      - id: other-tenant-export
+        method: authenticated-runtime
+        scenario: The same editor requests an export of another tenant's private document.
+        expected: Access is denied and no export job or downloadable artifact is created.
+    frequency:
+      - each-release

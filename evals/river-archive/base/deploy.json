@@ -1,0 +1,4 @@
+{
+  "environment": "staging",
+  "artifact": "archive-worker"
+}
