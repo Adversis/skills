@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "adversis-skills",
-  "description": "Security skills for agentic SaaS applications",
+  "description": "Threat modeling, security review, verification, and agentic SaaS assessments",
   "owner": {
     "name": "Adversis",
     "email": "noah@adversis.io"
@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "adversis-security",
-      "description": "Baseline audit, threat model, and security posture for agentic SaaS",
+      "description": "Threat modeling, change review, verification, baseline audits, and security posture reports",
       "author": {
         "name": "Adversis"
       },

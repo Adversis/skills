@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "kind": "review",
+  "system": "River Archive",
+  "base_revision": "de614cca1217fe35232329e44b6c2198bc72dd7d",
+  "revision": "243e6fd94e6f845535bf6887ba6c371fce4955fa",
+  "scope": ["archive_export.py", "test_archive_export.py", "docs/security-requirements.yaml"],
+  "summary": "The tenant check moved to the worker. A denied request can now add a job to the queue.",
+  "affected_requirements": ["SEC-001"],
+  "findings": [
+    {
+      "observation": "The request handler queues the job before the worker compares tenants.",
+      "impact": "A member can queue an export job for another tenant. The worker still blocks the export.",
+      "evidence": ["archive_export.py, request_export and render_export, at the candidate revision"],
+      "requirement_ids": ["SEC-001"],
+      "action": "Check the tenant before adding the job."
+    }
+  ],
+  "checks": {
+    "SEC-001/permitted-export": {
+      "status": "not_run",
+      "test_ref": "test_archive_export.ExportPolicy.test_permitted_export",
+      "detail": "The case covers an allowed export. The source review has no candidate run.",
+      "run": null
+    },
+    "SEC-001/denied-export": {
+      "status": "not_run",
+      "test_ref": "test_archive_export.ExportPolicy.test_denied_export",
+      "detail": "The case checks that the queue stays empty. Run it on the candidate.",
+      "run": null
+    }
+  },
+  "limitations": ["The source review inspected the code and test assertions. It has no execution evidence."]
+}

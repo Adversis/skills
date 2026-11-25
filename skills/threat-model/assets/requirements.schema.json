@@ -1,0 +1,86 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Adversis security requirements register v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "system", "requirements"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "system": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "owner"],
+      "properties": {
+        "name": { "$ref": "#/definitions/text" },
+        "owner": { "$ref": "#/definitions/owner" }
+      }
+    },
+    "requirements": {
+      "type": "array",
+      "description": "IDs are unique within this system, including retired requirements.",
+      "items": { "$ref": "#/definitions/requirement" }
+    }
+  },
+  "definitions": {
+    "text": { "type": "string", "pattern": "\\S" },
+    "owner": {
+      "description": "Accountable person or team. A null value records an outstanding assignment.",
+      "anyOf": [{ "$ref": "#/definitions/text" }, { "type": "null" }]
+    },
+    "textList": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/definitions/text" }
+    },
+    "requirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "status", "requirement", "owner", "threats", "controls", "verification", "frequency"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^SEC-[0-9]{3,}$" },
+        "status": { "enum": ["proposed", "active", "retired"] },
+        "requirement": { "$ref": "#/definitions/text" },
+        "owner": { "$ref": "#/definitions/owner" },
+        "threats": { "$ref": "#/definitions/textList" },
+        "controls": { "$ref": "#/definitions/textList" },
+        "verification": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/verificationCase" }
+        },
+        "frequency": {
+          "description": "Assessment triggers that apply to this requirement.",
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": ["each-pr", "each-substantive-change", "each-release", "significant-security-change", "weekly", "continuous", "every-6-12-months"]
+          }
+        }
+      }
+    },
+    "verificationCase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "method", "scenario", "expected"],
+      "properties": {
+        "id": {
+          "description": "Stable within this requirement.",
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        },
+        "method": {
+          "enum": ["automated-test", "authenticated-runtime", "contextual-review", "configuration-inspection", "adversarial-assessment", "monitoring", "independent-pentest"]
+        },
+        "scenario": { "$ref": "#/definitions/text" },
+        "expected": { "$ref": "#/definitions/text" },
+        "test_ref": {
+          "description": "Optional repository path and test name, or check identifier.",
+          "type": "string",
+          "pattern": "\\S"
+        }
+      }
+    }
+  }
+}

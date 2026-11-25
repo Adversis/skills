@@ -16,6 +16,8 @@ in this repo (or at adversis.io/baseline when published).
 
 ## Before you begin
 
+Use a loose ASD-STE100 style in walkthroughs and reports. Use short, active sentences. Name the component and the observed behavior. Give one corrective action per instruction. Keep verdict labels, paths, and code quotations exact.
+
 Ask: **"One-shot report or interactive walkthrough?"**
 
 - **One-shot**: run all checks, produce the full report, no questions

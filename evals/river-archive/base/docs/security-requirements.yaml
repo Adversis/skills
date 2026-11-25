@@ -1,0 +1,35 @@
+schema_version: 1
+system:
+  name: River Archive
+  owner: Archive team
+requirements:
+  - id: SEC-001
+    status: active
+    owner: Archive team
+    requirement: A member can queue and complete an export only for a notebook in their tenant.
+    threats: [Unauthorized export jobs]
+    controls: [Check membership before adding a job.]
+    frequency: [each-pr, each-release]
+    verification:
+      - id: permitted-export
+        method: automated-test
+        scenario: A member requests an export in their tenant.
+        expected: The worker returns an export for that tenant.
+        test_ref: test_archive_export.ExportPolicy.test_permitted_export
+      - id: denied-export
+        method: automated-test
+        scenario: A member requests an export for another tenant.
+        expected: The queue stays empty.
+        test_ref: test_archive_export.ExportPolicy.test_denied_export
+  - id: SEC-002
+    status: active
+    owner: Archive team
+    requirement: A production release requires approval from an independent human.
+    threats: [Unreviewed publication]
+    controls: [Require independent review in the production environment.]
+    frequency: [each-release]
+    verification:
+      - id: independent-approval
+        method: configuration-inspection
+        scenario: Inspect the effective reviewer policy for the production environment.
+        expected: A separate human must approve the release.
