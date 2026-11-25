@@ -8,7 +8,7 @@ python3 evals/river-archive/evaluate.py prepare export-worker /tmp/river-worker
 
 Give an evaluator only the installed skills, the prepared checkout, and the request below. Keep this guide and the scoring criteria outside the evaluator's inputs.
 
-1. Ask `/security-review` to review the tracked change from `HEAD^` to `HEAD` in CI mode. Request a source review. Ask it to write `review/assessment.json` in the checkout. Do not supply test results.
+1. Ask `/adversis-security:security-review` to review the tracked change from `HEAD^` to `HEAD` in CI mode. Request a source review. Ask it to write `review/assessment.json` in the checkout. Do not supply test results.
 2. Ask `/security-verify` to verify the change covered by that review. Supply the candidate register. Authorize the fixture's local Python unit tests. Request `verification/assessment.json`. Keep provider settings out of scope. Preserve the first record.
 3. Score both outputs. Repeat with `docs-only` and `deployment` in separate directories.
 

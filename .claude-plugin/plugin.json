@@ -1,7 +1,7 @@
 {
   "name": "adversis-security",
   "description": "Model threats, review changes, and verify security requirements. Audit agentic SaaS controls and report security posture. Run /security to choose a workflow.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": { "name": "Adversis" },
   "repository": "https://github.com/adversis/skills"
 }

@@ -56,7 +56,7 @@ claude plugin install adversis-security
 | [Security](skills/security/SKILL.md) | `/security` | Routes you to the right skill |
 | [Lint baseline](skills/lint-baseline/SKILL.md) | `/lint-baseline` | `docs/lint-baseline-report.md` |
 | [Threat model](skills/threat-model/SKILL.md) | `/threat-model` | `docs/threat-model.md` and `docs/security-requirements.yaml`, or a proposed change to them |
-| [Security review](skills/security-review/SKILL.md) | `/security-review` | A review `assessment.json` with findings, affected IDs, and verification gaps |
+| [Security review](skills/security-review/SKILL.md) | `/adversis-security:security-review` | A review `assessment.json` with findings, affected IDs, and verification gaps |
 | [Security verification](skills/security-verify/SKILL.md) | `/security-verify` | A verification `assessment.json` with case results and evidence for the candidate |
 | [Security persona](skills/security-persona/SKILL.md) | `/security-persona` | `docs/security-posture.md` |
 
@@ -65,7 +65,7 @@ claude plugin install adversis-security
 Start with the outcome you need. A review can use the threat model and requirements register. A verification run can use the review to select cases.
 
 ```
-/threat-model  →  /security-review  →  /security-verify
+/threat-model  →  /adversis-security:security-review  →  /security-verify
 ```
 
 **`/lint-baseline`** reads your codebase and audits 8 ship-blocking security items against the [v0 baseline](docs/v0-baseline.md). Produces `docs/lint-baseline-report.md` with PASS/GAP/UNKNOWN verdicts per item and framework-specific findings. Takes 5–10 minutes.
@@ -86,10 +86,10 @@ With Python 3, PyYAML and jsonschema installed, you can validate an application 
 python3 skills/threat-model/scripts/validate_register.py /path/to/application/docs/security-requirements.yaml
 ```
 
-**`/security-review`** inspects the proposed change. It cites evidence for each finding and identifies cases that need a result. **`/security-verify`** runs applicable checks in the authorized environment. It records the case, test, revision, environment, and evidence. Each run produces a separate record. Both skills support non-interactive requests.
+**`/adversis-security:security-review`** inspects the proposed change. It cites evidence for each finding and identifies cases that need a result. **`/security-verify`** runs applicable checks in the authorized environment. It records the case, test, revision, environment, and evidence. Each run produces a separate record. Both skills support non-interactive requests.
 
 ```text
-/security-review Review this PR against main. Write the assessment to review/assessment.json.
+/adversis-security:security-review Review this PR against main. Write the assessment to review/assessment.json.
 /security-verify Use review/assessment.json. Run the local regression tests. Write verification/assessment.json.
 ```
 
